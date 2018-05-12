@@ -47,7 +47,6 @@ class Vector(object):
             
         return Vector(new_vector)
     	
-
     def magnitude(self):
     	sum_sq = 0
     	for i in range(self.dimension):
@@ -59,4 +58,14 @@ class Vector(object):
         mag = self.magnitude()
         unit_vector = Vector([1 / mag])
         return unit_vector * self
+
+    def dot(self, v):
+        dot_sum = 0
+        for i in range(self.dimension):
+            dot_sum += self.coordinates[i] * v.coordinates[i]
+        return dot_sum
     	
+    def angle(self, v):
+        dot_prod = self.dot(v)
+        mag_prod = self.magnitude() * v.magnitude()
+        return math.acos(dot_prod / mag_prod)
