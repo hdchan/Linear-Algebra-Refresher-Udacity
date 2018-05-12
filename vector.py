@@ -1,3 +1,5 @@
+import math
+
 class Vector(object):
     def __init__(self, coordinates):
         try:
@@ -44,3 +46,17 @@ class Vector(object):
             new_vector.append(mul_sum)
             
         return Vector(new_vector)
+    	
+
+    def magnitude(self):
+    	sum_sq = 0
+    	for i in range(self.dimension):
+    		sum_sq += self.coordinates[i] ** 2
+    	
+    	return math.sqrt(sum_sq)
+    	
+    def direction(self):
+        mag = self.magnitude()
+        unit_vector = Vector([1 / mag])
+        return unit_vector * self
+    	
