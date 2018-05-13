@@ -47,7 +47,7 @@ class Vector(object):
             new_vector.append(mul_sum)
             
         return Vector(new_vector)
-    	
+
     def magnitude(self):
     	sum_sq = 0
     	for i in range(self.dimension):
@@ -71,11 +71,42 @@ class Vector(object):
         mag_prod = Decimal(str(self.magnitude() * v.magnitude()))
         return math.acos(dot_prod / mag_prod)
 
-    def isParallelTo(self, v):
+    def is_parallel_to(self, v):
         for i in range(self.dimension):
             if (Decimal(str(v.coordinates[i])) % Decimal(str(self.coordinates[i])) != 0):
                 return False
         return True
 
-    def isOrthogonalTo(self, v):
+    def is_orthogonal_to(self, v):
         return self.dot(v) == 0
+
+    def projection_of(self, v):
+        vector = Vector([float(v.dot(self.direction()))])
+        return vector * self.direction()
+    
+    def orthogonal_of(self, v):
+        return v - self.projection_of(v)
+    
+    def cross_product(self, v):
+        try:
+            if not (self.dimension == 3):
+                raise ValueError
+
+        except ValueError:
+            raise ValueError('Incorrect dimensions')
+
+        x = 0
+        y = 1
+        z = 2
+
+        return Vector([
+            self.coordinates[y] * v.coordinates[z] - v.coordinates[y] * self.coordinates[z],
+            -(self.coordinates[x] * v.coordinates[z] - v.coordinates[x] * self.coordinates[z]),
+            self.coordinates[x] * v.coordinates[y] - v.coordinates[x] * self.coordinates[y]
+        ])
+
+    def area_of_parallelogram(self, v):
+        return self.cross_product(v).magnitude()
+    
+    def area_of_triangle(self, v):
+        return self.area_of_parallelogram(v) / 2
