@@ -1,4 +1,5 @@
 import math
+from decimal import Decimal
 
 class Vector(object):
     def __init__(self, coordinates):
@@ -60,12 +61,21 @@ class Vector(object):
         return unit_vector * self
 
     def dot(self, v):
-        dot_sum = 0
+        dot_sum = Decimal(str(0))
         for i in range(self.dimension):
-            dot_sum += self.coordinates[i] * v.coordinates[i]
+            dot_sum += Decimal(str(self.coordinates[i])) * Decimal(str(v.coordinates[i]))
         return dot_sum
     	
     def angle(self, v):
         dot_prod = self.dot(v)
-        mag_prod = self.magnitude() * v.magnitude()
+        mag_prod = Decimal(str(self.magnitude() * v.magnitude()))
         return math.acos(dot_prod / mag_prod)
+
+    def isParallelTo(self, v):
+        for i in range(self.dimension):
+            if (Decimal(str(v.coordinates[i])) % Decimal(str(self.coordinates[i])) != 0):
+                return False
+        return True
+
+    def isOrthogonalTo(self, v):
+        return self.dot(v) == 0
